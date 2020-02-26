@@ -7,7 +7,7 @@ import GameOver from './gameover'
 
 // init canvas
 const canvas = document.querySelector('#canvas')
-window.c = canvas.getContext('2d')
+window.ctx = canvas.getContext('2d')
 window.life = 100
 
 const spaceshipDx = 15
@@ -76,7 +76,7 @@ function animate() {
   // Draw scene when still alive
   if (window.life > 0) {
     requestAnimationFrame(animate)
-    c.clearRect(0, 0, innerWidth, innerHeight) // clean scene
+    ctx.clearRect(0, 0, innerWidth, innerHeight) // clean scene
 
     // draw the stars
     for (let [key, circle] of circles) {
@@ -141,7 +141,7 @@ function init() {
   explosions = new Map()
 
   for (let i = 0; i < 500; i++) {
-    addCircle(c, circles, i)
+    addCircle(ctx, circles, i)
   }
 
   for (let i = 0; i < innerWidth / 100; i++) {

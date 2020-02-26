@@ -17,11 +17,11 @@ function Points(points, start) {
     }
 
     const text = this.points
-    c.fillStyle = 'white'
-    c.font = '20px sans-serif';
-    const textM = c.measureText(text)
-    c.fillText(`POINTS: ${text}`, 20, 30)
-    c.fillText(`LEVEL: ${this.level + 1}`, 20, 50)
+    ctx.fillStyle = 'white'
+    ctx.font = '20px sans-serif';
+    const textM = ctx.measureText(text)
+    ctx.fillText(`POINTS: ${text}`, 20, 30)
+    ctx.fillText(`LEVEL: ${this.level + 1}`, 20, 50)
   }
 }
 

@@ -18,21 +18,16 @@ function Circle(
   this.key = key
 
   this.draw = () => {
-    window.c.beginPath()
-    window.c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-    window.c.fillStyle = `rgba(255, 255, 255, ${this.alpha})`
-    window.c.fill()
+    ctx.beginPath()
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
+    ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`
+    ctx.fill()
   }
 
   this.update = () => {
-    if (this.x > innerWidth || this.x + this.radius < 0) {
-      circles.delete(this.key)
-      addCircle(c, circles, _.uniqueId(), false)
-    }
-
     if (this.y > innerHeight || this.y + this.radius < 0) {
-      circles.delete(this.key)
-      addCircle(c, circles, _.uniqueId(), false)
+      const circle = circles.get(this.key)
+      circle.y = -(circle.radius * 2)
     }
 
     this.x += this.dx

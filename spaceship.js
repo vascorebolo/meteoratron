@@ -26,7 +26,7 @@ function Spaceship(src, x, y) {
       this.rate = 0
     }
 
-    window.c.drawImage(
+    ctx.drawImage(
       this.img,
       this.srcX,
       0,

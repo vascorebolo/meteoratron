@@ -10,11 +10,11 @@ function Meteor(src, x, y, dy, width, height, timer = new Date()) {
   this.rotation = Math.random() * 360
 
   this.draw = () => {
-    c.save()
-    c.translate(this.x, this.y)
-    c.rotate(this.rotation - (this.y / innerHeight))
-    c.drawImage(this.img, 0, 0, this.width, this.height)
-    c.restore()
+    ctx.save()
+    ctx.translate(this.x, this.y)
+    ctx.rotate(this.rotation - (this.y / innerHeight))
+    ctx.drawImage(this.img, 0, 0, this.width, this.height)
+    ctx.restore()
   }
 
   this.update = () => {

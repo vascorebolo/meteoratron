@@ -23,7 +23,7 @@ function Explosion(x, y, id, explosions) {
   this.draw = () => {
     this.update()
     if (this.currentFrame < 7) {
-      window.c.drawImage(
+      ctx.drawImage(
         this.image,
         this.srcX,
         this.srcY,
