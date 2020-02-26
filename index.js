@@ -2,12 +2,14 @@ import Spaceship from './spaceship'
 import Life from './life'
 import Points from './points'
 import Explosion from './explosion'
-import TextMiddle from './textmiddle'
 import { addCircle, addMeteor, destroyMeteor, addMoreMeteors } from './utils'
+import GameOver from './gameover'
 
+// init canvas
 const canvas = document.querySelector('#canvas')
 window.c = canvas.getContext('2d')
 window.life = 100
+
 const spaceshipDx = 15
 const life = new Life()
 const explosion = new Explosion(50, 50)
@@ -30,6 +32,7 @@ window.addEventListener('resize', () => {
   init()
 })
 
+// listener for keyboard unput
 window.addEventListener('keydown', (e) => {
   if (
     e.key === 'ArrowLeft'
@@ -68,6 +71,7 @@ window.addEventListener('keyup', (e) => {
   spaceship.changeState(null)
 })
 
+// main render function
 function animate() {
   // Draw scene when still alive
   if (window.life > 0) {
@@ -122,32 +126,10 @@ function animate() {
     for (let [key, explosion] of explosions) {
       explosion.draw()
     }
+
   // Draw scene when dead - GAME OVER
   } else {
-    const text = `GAME OVER MAN`
-    const hint = '(press enter to retry)'
-    c.fillStyle = 'rgba(0, 0, 0, 0.6)'
-    c.fillRect(0, 0, innerWidth, innerHeight)
-
-    TextMiddle('GAME OVER', { y: (innerHeight / 2) - 60 })
-
-    TextMiddle(
-      `Points: ${points.points} | Level: ${points.level + 1}`,
-      {
-        y: (innerHeight / 2) - 20,
-        fontSize: 20,
-        color: 'red'
-      }
-    )
-
-    TextMiddle(
-      hint,
-      {
-        y: (innerHeight / 2) + 20,
-        color: 'white',
-        fontSize: 18
-      }
-    )
+    GameOver(points)
   }
 }
 
