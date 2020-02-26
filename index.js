@@ -4,6 +4,7 @@ import Points from './points'
 import Explosion from './explosion'
 import { addCircle, addMeteor, destroyMeteor, addMoreMeteors } from './utils'
 import GameOver from './gameover'
+import TextMiddle from './textmiddle'
 
 // init canvas
 const canvas = document.querySelector('#canvas')
@@ -21,6 +22,7 @@ let meteors = null
 let startTime = null
 let timer = null
 let points = null
+let paused = false
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -69,12 +71,18 @@ window.addEventListener('keydown', (e) => {
 
 window.addEventListener('keyup', (e) => {
   spaceship.changeState(null)
+
+  if (e.key === 'p') {
+    paused = !paused
+    console.log(paused);
+
+  }
 })
 
 // main render function
 function animate() {
   // Draw scene when still alive
-  if (window.life > 0) {
+  if (window.life > 0 && !paused) {
     requestAnimationFrame(animate)
     ctx.clearRect(0, 0, innerWidth, innerHeight) // clean scene
 
@@ -128,8 +136,11 @@ function animate() {
     }
 
   // Draw scene when dead - GAME OVER
-  } else {
+  } else if (!paused) {
     GameOver(points)
+  } else {
+    requestAnimationFrame(animate)
+    TextMiddle('Paused...', { y: innerHeight / 2, fontSize: 50 })
   }
 }
 
