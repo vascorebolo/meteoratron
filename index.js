@@ -5,6 +5,7 @@ import Explosion from './explosion'
 import { addCircle, addMeteor, destroyMeteor, addMoreMeteors } from './utils'
 import GameOver from './gameover'
 import TextMiddle from './textmiddle'
+import Powerup from './powerup'
 
 // init canvas
 const canvas = document.querySelector('#canvas')
@@ -19,10 +20,12 @@ let spaceship = null
 let circles = null
 let explosions = null
 let meteors = null
+let powerups = null
 let startTime = null
 let timer = null
 let points = null
 let paused = false
+let powerup = null
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -134,8 +137,9 @@ function animate() {
     for (let [key, explosion] of explosions) {
       explosion.draw()
     }
+    powerup.draw()
 
-  // Draw scene when dead - GAME OVER
+    // Draw scene when dead - GAME OVER
   } else if (!paused) {
     GameOver(points)
   } else {
@@ -150,6 +154,9 @@ function init() {
   meteors = new Map()
   points = new Points(0, startTime.getTime())
   explosions = new Map()
+  powerups = new Map()
+  powerup = new Powerup(10, 10)
+
 
   for (let i = 0; i < 500; i++) {
     addCircle(ctx, circles, i)
