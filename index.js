@@ -107,8 +107,30 @@ function animate() {
     // Draw meteors when elapsed time > 5000
     if (elapsedTime > 5000) {
       // if level updated add more meteors
-      points.updatedLevel
-        && Meteor.addMeteors(meteors, points.level + Math.round(points.level / 2))
+      if (points.updatedLevel) {
+        if (meteors.size < Math.round(innerWidth / Meteor.getSize()) - 15) {
+          Meteor.addMeteors(meteors, points.level + Math.round(points.level / 2))
+        } else {
+          let dyValue = 0
+          let meteorsToDestroy = []
+          for (let [key, meteor] of meteors) {
+            dyValue = dyValue === 0 ? meteor.dy : dyValue
+            const explosion = new Explosion(meteor.x, meteor.y, explosions)
+            explosions.set(
+              explosion.id,
+              explosion
+            )
+            meteorsToDestroy.push(meteor.key)
+          }
+
+          for (let i = 0; i < meteorsToDestroy.length; i++) {
+            const key = meteorsToDestroy[i];
+            Meteor.destroyMeteor(meteors, key)
+          }
+
+          Meteor.addMeteors(meteors, 10, dyValue)
+        }
+      }
 
       // draw meteors loop
       for (let [key, meteor] of meteors) {
@@ -175,9 +197,10 @@ function animate() {
     if (debug) {
       TextMiddle(
         `
-          metric: ${Math.round(innerWidth / Meteor.getSize())}
+          metric: ${(Math.round(innerWidth / Meteor.getSize()) - 15 )}
           meteors: ${meteors.size}
           life: ${life.value}
+          level condition: ${meteors.size - 15 < Math.round(innerWidth / Meteor.getSize())}
         `,
         {
           fontSize: 14,
