@@ -1,8 +1,9 @@
 import Spaceship from './spaceship'
 import Life from './life'
 import Points from './points'
+import Star from './star'
 import Explosion from './explosion'
-import { addCircle, addMeteor, destroyMeteor, addMoreMeteors } from './utils'
+import { addMeteor, destroyMeteor, addMoreMeteors } from './utils'
 import GameOver from './gameover'
 import TextMiddle from './textmiddle'
 import Powerup from './powerup'
@@ -16,16 +17,14 @@ const spaceshipDx = 15
 const life = new Life()
 
 let spaceship = null
-let circles = null
+let stars = null
 let explosions = null
 let meteors = null
 let powerups = null
 let startTime = null
-let timer = null
 let points = null
 let paused = false
 let powerup = null
-let testImg = null
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -77,8 +76,6 @@ window.addEventListener('keyup', (e) => {
 
   if (e.key === 'p') {
     paused = !paused
-    console.log(paused);
-
   }
 })
 
@@ -90,8 +87,9 @@ function animate() {
     ctx.clearRect(0, 0, innerWidth, innerHeight) // clean scene
 
     // draw the stars
-    for (let [key, circle] of circles) {
-      circle.update()
+    for (let [key, star] of stars) {
+      star.update()
+      // console.log(star);
     }
 
     // Draw meteors when elapsed time > 5000
@@ -150,7 +148,7 @@ function animate() {
 
 function init() {
   startTime = new Date()
-  circles = new Map()
+  stars = new Map()
   meteors = new Map()
   points = new Points(0, startTime.getTime())
   explosions = new Map()
@@ -158,7 +156,7 @@ function init() {
   powerup = new Powerup(10, 10)
 
   for (let i = 0; i < 500; i++) {
-    addCircle(ctx, circles, i)
+    Star.addStar(stars)
   }
 
   for (let i = 0; i < innerWidth / 100; i++) {
