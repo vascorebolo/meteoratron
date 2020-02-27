@@ -125,15 +125,11 @@ function animate() {
           }
         }
       }
-
     }
 
     // powerups logic
     const addPowerup = Math.round(Math.random() * 500) < 1
     addPowerup && Powerup.addPowerup(powerups)
-    if (powerups.size > 0) {
-      console.log(powerups.size);
-    }
 
     for (let [key, powerup] of powerups) {
       powerup.move()
