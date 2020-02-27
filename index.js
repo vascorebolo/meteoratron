@@ -14,7 +14,6 @@ window.life = 100
 
 const spaceshipDx = 15
 const life = new Life()
-const explosion = new Explosion(50, 50)
 
 let spaceship = null
 let circles = null
@@ -26,6 +25,7 @@ let timer = null
 let points = null
 let paused = false
 let powerup = null
+let testImg = null
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -157,7 +157,6 @@ function init() {
   powerups = new Map()
   powerup = new Powerup(10, 10)
 
-
   for (let i = 0; i < 500; i++) {
     addCircle(ctx, circles, i)
   }
@@ -167,7 +166,6 @@ function init() {
   }
 
   spaceship = new Spaceship(
-    'spaceship.png',
     innerWidth / 2 - 36,
     innerHeight - 80,
   )
