@@ -13,6 +13,7 @@ const canvas = document.querySelector('#canvas')
 window.ctx = canvas.getContext('2d')
 
 const spaceshipDx = 15
+const meteorInitFactor = 300
 
 let life = null
 let spaceship = null
@@ -24,6 +25,7 @@ let points = null
 let paused = false
 let powerup = null
 let powerups = null
+
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -99,11 +101,7 @@ function animate() {
 
       // draw meteors loop
       for (let [key, meteor] of meteors) {
-        // console.log(meteor.timer, now.getTime());
-
-        if (meteor.timer > now.getTime()) {
-          console.log('cheguei');
-
+        if (meteor.timer < now.getTime()) {
           meteor.move()
 
           // detect meteor collision with spaceship
@@ -197,11 +195,7 @@ function init() {
     Star.addStar(stars)
   }
 
-  // for (let i = 0; i < innerWidth / 300; i++) {
-  //   Meteor.addMeteor(meteors)
-  // }
-
-  Meteor.addMeteors(meteors, Math.round(innerWidth / 300))
+  Meteor.addMeteors(meteors, Math.round(innerWidth / meteorInitFactor))
 
   spaceship = new Spaceship(
     innerWidth / 2 - 36,

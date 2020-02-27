@@ -19,7 +19,6 @@ class Meteor extends DrawImage {
     this.key = _.uniqueId()
     this.timer = timer
     this.rotation = Math.random() * 360
-    console.log('dy: ', this.dy);
   }
 
   draw() {
@@ -31,7 +30,6 @@ class Meteor extends DrawImage {
   }
 
   move() {
-    console.log(this.y);
 
     if (this.y > innerHeight + this.height) {
       this.x = Math.random() * innerWidth
@@ -40,7 +38,6 @@ class Meteor extends DrawImage {
       this.y += this.dy
     }
 
-    console.log(`${this.key}: ${this.y} ${this.timer}`);
 
 
     this.draw()
@@ -48,7 +45,6 @@ class Meteor extends DrawImage {
 
   static addMeteor(meteors) {
     const dy =  Math.floor(Math.random() * 10) + 5
-    console.log('math: ', dy);
 
     const meteor = new this(
       Math.random() * innerWidth,
