@@ -134,18 +134,7 @@ function animate() {
       powerup.move()
 
       // detect powerup collision
-      if (
-        (
-          powerup.y > innerHeight - spaceship.height
-          && powerup.y <= innerHeight
-        )
-        &&
-        (
-          powerup.x >= spaceship.x
-          && powerup.x <= spaceship.x + spaceship.width
-        )
-      ) {
-
+      if (Powerup.detectedCollision(powerup, spaceship)) {
         if (life.value < 100) {
           life.gain()
         }
@@ -169,7 +158,11 @@ function animate() {
     // show debug bar
     if (debug) {
       TextMiddle(
-        `metric: ${Math.round(innerWidth / Meteor.getSize())} meteors: ${meteors.size}`,
+        `
+          metric: ${Math.round(innerWidth / Meteor.getSize())}
+          meteors: ${meteors.size}
+          life: ${life.value}
+        `,
         {
           fontSize: 14,
           y: innerHeight - 14,

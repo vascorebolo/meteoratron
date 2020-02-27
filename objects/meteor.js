@@ -69,14 +69,14 @@ class Meteor extends DrawImage {
     return large ? 50 : 35
   }
 
-  static detectedCollision(meteor, spaceship) {
-    return (
-      meteor.x < spaceship.x + spaceship.width &&
-      meteor.x + meteor.width > spaceship.x &&
-      meteor.y < spaceship.y + spaceship.height &&
-      meteor.y + meteor.height > spaceship.y
-    )
-  }
+  // static detectedCollision(meteor, spaceship) {
+  //   return (
+  //     meteor.x < spaceship.x + spaceship.width &&
+  //     meteor.x + meteor.width > spaceship.x &&
+  //     meteor.y < spaceship.y + spaceship.height &&
+  //     meteor.y + meteor.height > spaceship.y
+  //   )
+  // }
 }
 
 export default Meteor
