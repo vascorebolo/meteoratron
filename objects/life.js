@@ -2,6 +2,7 @@ class Life {
   constructor() {
     this.value = 100
     this.hitValue = 10
+    this.bigHitValue = 20
   }
 
   draw() {
@@ -11,8 +12,10 @@ class Life {
     ctx.fillRect(innerWidth - 40, 20, 20, 200 - this.value * 2);
   }
 
-  hit() {
-    this.value -= this.hitValue
+  hit(big = false) {
+    this.value -= big
+      ? this.bigHitValue
+      : this.hitValue
   }
 
   gain() {

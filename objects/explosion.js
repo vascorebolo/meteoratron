@@ -1,7 +1,7 @@
 import SpriteDrawImage from '../utils/sprite-draw-image'
 
 class Explosion extends SpriteDrawImage  {
-  constructor(x, y, id, explosions) {
+  constructor(x, y, explosions) {
     super(
       'explosion2.png',
       x,
@@ -11,8 +11,7 @@ class Explosion extends SpriteDrawImage  {
       1536,
       0
     )
-
-    this.id = id
+    this.id = _.uniqueId()
     this.explosions = explosions
   }
 

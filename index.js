@@ -23,6 +23,7 @@ let meteors = null
 let startTime = null
 let points = null
 let paused = false
+let debug = false
 let powerup = null
 let powerups = null
 
@@ -78,6 +79,10 @@ window.addEventListener('keyup', (e) => {
   if (e.key === 'p') {
     paused = !paused
   }
+
+  if (e.key === 'd') {
+    debug = !debug
+  }
 })
 
 // main render function
@@ -105,24 +110,15 @@ function animate() {
           meteor.move()
 
           // detect meteor collision with spaceship
-          if (
-            (
-              meteor.y >= innerHeight - spaceship.height
-              && meteor.y <= innerHeight
-            )
-            &&
-            (
-              meteor.x > spaceship.x //- spaceship.width / 2
-              && meteor.x < spaceship.x + spaceship.width
-            )
-          ) {
-            const explosionId = _.uniqueId()
+          if (Meteor.detectedCollision(meteor, spaceship)) {
+            const explosion = new Explosion(meteor.x, meteor.y, explosions)
+
 
             explosions.set(
-              explosionId,
-              new Explosion(meteor.x, meteor.y, explosionId, explosions)
+              explosion.id,
+              explosion
             )
-            life.hit() // subtract from live
+            life.hit(meteor.width === Meteor.getSize(true)) // subtract from live
             Meteor.destroyMeteor(meteors, key) // destroys and adds new meteor
           }
         }
@@ -168,6 +164,18 @@ function animate() {
     // render explosions
     for (let [key, explosion] of explosions) {
       explosion.draw()
+    }
+
+    // show debug bar
+    if (debug) {
+      TextMiddle(
+        `metric: ${Math.round(innerWidth / Meteor.getSize())} meteors: ${meteors.size}`,
+        {
+          fontSize: 14,
+          y: innerHeight - 14,
+          color: 'lime'
+        }
+      )
     }
 
   } else if (!paused) {

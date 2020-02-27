@@ -11,8 +11,8 @@ class Meteor extends DrawImage {
       drawPlanet ? 'planet.png' : 'meteor.png',
       x,
       y,
-      drawPlanet ? 50 : 25,
-      50
+      drawPlanet ? 50 : 35, // if changed, update static class
+      drawPlanet ? 50 : 35
     )
 
     this.dy = dy
@@ -37,8 +37,6 @@ class Meteor extends DrawImage {
     } else {
       this.y += this.dy
     }
-
-
 
     this.draw()
   }
@@ -65,6 +63,19 @@ class Meteor extends DrawImage {
   static destroyMeteor(meteors, key) {
     meteors.delete(key)
     this.addMeteor(meteors)
+  }
+
+  static getSize(large = false) {
+    return large ? 50 : 35
+  }
+
+  static detectedCollision(meteor, spaceship) {
+    return (
+      meteor.x < spaceship.x + spaceship.width &&
+      meteor.x + meteor.width > spaceship.x &&
+      meteor.y < spaceship.y + spaceship.height &&
+      meteor.y + meteor.height > spaceship.y
+    )
   }
 }
 
