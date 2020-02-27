@@ -7,6 +7,7 @@ import Explosion from './objects/explosion'
 import GameOver from './gameover'
 import TextMiddle from './utils/textmiddle'
 import Powerup from './objects/powerup'
+import PowerupFeedback from './objects/powerup-feedback'
 
 // init canvas
 const canvas = document.querySelector('#canvas')
@@ -26,7 +27,7 @@ let paused = false
 let debug = false
 let powerup = null
 let powerups = null
-
+let powerHits = null
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -83,10 +84,16 @@ window.addEventListener('keyup', (e) => {
   if (e.key === 'd') {
     debug = !debug
   }
+
+  if (e.key === 'q') {
+    Powerup.addPowerup(powerups)
+  }
 })
 
 // main render function
 function animate() {
+  const now = new Date()
+  const elapsedTime = now - startTime
   // Draw scene when still alive
   if (life.value > 0 && !paused) {
     requestAnimationFrame(animate)
@@ -98,8 +105,7 @@ function animate() {
     }
 
     // Draw meteors when elapsed time > 5000
-    const now = new Date()
-    if (now - startTime > 5000) {
+    if (elapsedTime > 5000) {
       // if level updated add more meteors
       points.updatedLevel
         && Meteor.addMeteors(meteors, points.level + Math.round(points.level / 2))
@@ -112,7 +118,6 @@ function animate() {
           // detect meteor collision with spaceship
           if (Meteor.detectedCollision(meteor, spaceship)) {
             const explosion = new Explosion(meteor.x, meteor.y, explosions)
-
 
             explosions.set(
               explosion.id,
@@ -127,7 +132,11 @@ function animate() {
 
     // powerups logic
     const addPowerup = Math.round(Math.random() * 500) < 1 // powerup probability 1/500
-    addPowerup && powerups.size === 0 && meteors.size > 0 && Powerup.addPowerup(powerups)
+    addPowerup &&
+      powerups.size === 0 &&
+      meteors.size > 0 &&
+      elapsedTime > 6000 &&
+      Powerup.addPowerup(powerups)
     // ^ only add powerup if there are meteors, and there's no powerups yet
 
     for (let [key, powerup] of powerups) {
@@ -139,6 +148,8 @@ function animate() {
           life.gain()
         }
 
+        const powerHit = new PowerupFeedback(powerup.x, powerup.y, powerHits)
+        powerHits.set(powerHit.id, powerHit)
         powerups.delete(powerup.key)
       } else if (powerup.y > innerHeight + powerup.height) {
         powerups.delete(powerup.key)
@@ -153,6 +164,11 @@ function animate() {
     // render explosions
     for (let [key, explosion] of explosions) {
       explosion.draw()
+    }
+
+    // render power hits
+    for (let [key, powerHit] of powerHits) {
+      powerHit.draw()
     }
 
     // show debug bar
@@ -191,6 +207,7 @@ function init() {
   powerups = new Map()
   powerup = new Powerup(10, 10)
   powerups = new Map()
+  powerHits = new Map()
 
   for (let i = 0; i < 500; i++) {
     Star.addStar(stars)

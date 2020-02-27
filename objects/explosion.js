@@ -3,7 +3,7 @@ import SpriteDrawImage from '../utils/sprite-draw-image'
 class Explosion extends SpriteDrawImage  {
   constructor(x, y, explosions) {
     super(
-      'explosion2.png',
+      'explosion.png',
       x,
       y,
       64,
