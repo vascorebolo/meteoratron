@@ -1,4 +1,4 @@
-# Avoid Asteroids
+# Avoid Meteors
 
 A little game made with html5 canvas and js.
 
