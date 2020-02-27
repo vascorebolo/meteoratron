@@ -1,28 +1,29 @@
 import Spaceship from './spaceship'
 import Life from './life'
 import Points from './points'
+import Star from './star'
 import Explosion from './explosion'
-import { addCircle, addMeteor, destroyMeteor, addMoreMeteors } from './utils'
+import { addMeteor, destroyMeteor, addMoreMeteors } from './utils'
 import GameOver from './gameover'
 import TextMiddle from './textmiddle'
+import Powerup from './components/powerup'
 
 // init canvas
 const canvas = document.querySelector('#canvas')
 window.ctx = canvas.getContext('2d')
-window.life = 100
 
 const spaceshipDx = 15
-const life = new Life()
-const explosion = new Explosion(50, 50)
 
+let life = null
 let spaceship = null
-let circles = null
+let stars = null
 let explosions = null
 let meteors = null
 let startTime = null
-let timer = null
 let points = null
 let paused = false
+let powerup = null
+let powerups = null
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -54,18 +55,18 @@ window.addEventListener('keydown', (e) => {
 
   if (
     e.key === 'Enter'
-    && window.life <= 0
+    && life.value <= 0
   ) {
-    window.life = 100
+    life.value = 100
     init()
     animate()
   }
 
   if (
     e.key === 'l'
-    && window.life > 0
+    && life.value > 0
   ) {
-    window.life = 0
+    life.value = 0
   }
 })
 
@@ -74,21 +75,19 @@ window.addEventListener('keyup', (e) => {
 
   if (e.key === 'p') {
     paused = !paused
-    console.log(paused);
-
   }
 })
 
 // main render function
 function animate() {
   // Draw scene when still alive
-  if (window.life > 0 && !paused) {
+  if (life.value > 0 && !paused) {
     requestAnimationFrame(animate)
     ctx.clearRect(0, 0, innerWidth, innerHeight) // clean scene
 
     // draw the stars
-    for (let [key, circle] of circles) {
-      circle.update()
+    for (let [key, star] of stars) {
+      star.update()
     }
 
     // Draw meteors when elapsed time > 5000
@@ -109,8 +108,9 @@ function animate() {
               meteor.y >= innerHeight - spaceship.height
               && meteor.y <= innerHeight
             )
-            && (
-              meteor.x > spaceship.x - spaceship.width / 2
+            &&
+            (
+              meteor.x > spaceship.x //- spaceship.width / 2
               && meteor.x < spaceship.x + spaceship.width
             )
           ) {
@@ -127,32 +127,69 @@ function animate() {
       }
     }
 
-    spaceship.draw()
-    life.draw()
-    points.draw()
+    // powerups logic
+    const addPowerup = Math.round(Math.random() * 500) < 1
+    addPowerup && Powerup.addPowerup(powerups)
 
+    for (let [key, powerup] of powerups) {
+      powerup.move()
+
+      // detect powerup collision
+      if (
+        (
+          powerup.y > innerHeight - spaceship.height
+          && powerup.y <= innerHeight
+        )
+        &&
+        (
+          powerup.x >= spaceship.x
+          && powerup.x <= spaceship.x + spaceship.width
+        )
+      ) {
+
+        if (life.value < 100) {
+          life.gain()
+        }
+
+        powerups.delete(powerup.key)
+      } else if (powerup.y > innerHeight + powerup.height) {
+        powerups.delete(powerup.key)
+      }
+    }
+
+    // draw spaceship, life gauge and points
+    spaceship.draw()
+    points.draw()
+    life.draw()
+
+    // render explosions
     for (let [key, explosion] of explosions) {
       explosion.draw()
     }
 
-  // Draw scene when dead - GAME OVER
   } else if (!paused) {
+    // Draw scene when dead - GAME OVER
     GameOver(points)
   } else {
+    // Draw paused scene
     requestAnimationFrame(animate)
     TextMiddle('Paused...', { y: innerHeight / 2, fontSize: 50 })
   }
 }
 
 function init() {
+  life = new Life()
   startTime = new Date()
-  circles = new Map()
+  stars = new Map()
   meteors = new Map()
   points = new Points(0, startTime.getTime())
   explosions = new Map()
+  powerups = new Map()
+  powerup = new Powerup(10, 10)
+  powerups = new Map()
 
   for (let i = 0; i < 500; i++) {
-    addCircle(ctx, circles, i)
+    Star.addStar(stars)
   }
 
   for (let i = 0; i < innerWidth / 100; i++) {
@@ -160,7 +197,6 @@ function init() {
   }
 
   spaceship = new Spaceship(
-    'spaceship.png',
     innerWidth / 2 - 36,
     innerHeight - 80,
   )

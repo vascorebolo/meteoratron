@@ -1,29 +1,19 @@
-function Spaceship(src, x, y) {
-  this.img = new Image()
-  this.img.src = 'spaceship2.png'
-  this.x = x
-  this.y = y
-  this.srcX = 0
-  this.width = 72.2
-  this.height = 72
-  this.state = null
-  this.sheetWidth = 288
-  this.currentFrame = 0
-  this.cols = this.sheetWidth / 72
-  this.skew = 0
-  this.xt = -20
-  this.xAdjust = 0
-  this.rate = 0
+import SpriteDrawImage from './classes/sprite-draw-image'
 
-  this.update = () => {
-    this.currentFrame = ++this.currentFrame % this.cols
-    this.srcX = this.currentFrame * this.width
+class Spaceship extends SpriteDrawImage {
+  constructor(x, y) {
+    super('spaceship2.png', x, y, 72, 72, 288)
+
+    this.state = null
+    this.skew = 0
+    this.xt = -20
+    this.xAdjust = 0
   }
 
-  this.draw = () => {
-    if (this.rate > 8) {
+  draw() {
+    if (this.frameStepper > this.frameInterval) {
       this.update()
-      this.rate = 0
+      this.frameStepper = 0
     }
 
     ctx.drawImage(
@@ -37,10 +27,10 @@ function Spaceship(src, x, y) {
       this.width + this.skew,
       this.height
     )
-    this.rate += 1
+    this.frameStepper++
   }
 
-  this.changeState = (state) => {
+  changeState(state) {
     switch (state) {
       case 'left':
         this.skew = this.xt
@@ -53,6 +43,7 @@ function Spaceship(src, x, y) {
         this.skew = 0
         this.xAdjust = 0
     }
+
     this.state = state
   }
 }
