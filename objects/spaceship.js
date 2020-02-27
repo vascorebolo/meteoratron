@@ -2,11 +2,11 @@ import SpriteDrawImage from '../utils/sprite-draw-image'
 
 class Spaceship extends SpriteDrawImage {
   constructor(x, y) {
-    super('spaceship2.png', x, y, 72, 72, 288)
+    super('spaceship.png', x, y, 64, 64, 192)
 
     this.state = null
     this.skew = 0
-    this.xt = -20
+    this.xt = -8
     this.xAdjust = 0
   }
 
