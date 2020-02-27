@@ -1,4 +1,3 @@
-// import Circle from './star'
 import Meteor from './meteor'
 
 export function addMeteor(meteors, key) {
