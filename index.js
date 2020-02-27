@@ -2,8 +2,8 @@ import Spaceship from './objects/spaceship'
 import Life from './objects/life'
 import Points from './points'
 import Star from './objects/star'
+import Meteor from './objects/meteor'
 import Explosion from './objects/explosion'
-import { addMeteor, destroyMeteor, addMoreMeteors } from './utils'
 import GameOver from './gameover'
 import TextMiddle from './utils/textmiddle'
 import Powerup from './objects/powerup'
@@ -13,6 +13,7 @@ const canvas = document.querySelector('#canvas')
 window.ctx = canvas.getContext('2d')
 
 const spaceshipDx = 15
+const meteorInitFactor = 300
 
 let life = null
 let spaceship = null
@@ -24,6 +25,7 @@ let points = null
 let paused = false
 let powerup = null
 let powerups = null
+
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -95,12 +97,12 @@ function animate() {
     if (now - startTime > 5000) {
       // if level updated add more meteors
       points.updatedLevel
-        && addMoreMeteors(meteors, points.level * 2)
+        && Meteor.addMeteors(meteors, points.level + Math.round(points.level / 2))
 
       // draw meteors loop
       for (let [key, meteor] of meteors) {
         if (meteor.timer < now.getTime()) {
-          meteor.update()
+          meteor.move()
 
           // detect meteor collision with spaceship
           if (
@@ -121,7 +123,7 @@ function animate() {
               new Explosion(meteor.x, meteor.y, explosionId, explosions)
             )
             life.hit() // subtract from live
-            destroyMeteor(meteors, key) // destroys and adds new meteor
+            Meteor.destroyMeteor(meteors, key) // destroys and adds new meteor
           }
         }
       }
@@ -193,9 +195,7 @@ function init() {
     Star.addStar(stars)
   }
 
-  for (let i = 0; i < innerWidth / 300; i++) {
-    addMeteor(meteors, i)
-  }
+  Meteor.addMeteors(meteors, Math.round(innerWidth / meteorInitFactor))
 
   spaceship = new Spaceship(
     innerWidth / 2 - 36,
