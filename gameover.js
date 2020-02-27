@@ -1,4 +1,4 @@
-import TextMiddle from './textmiddle'
+import TextMiddle from './utils/textmiddle'
 
 function GameOver(points) {
     const text = `GAME OVER MAN`

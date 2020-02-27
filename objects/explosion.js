@@ -1,4 +1,4 @@
-import SpriteDrawImage from './classes/sprite-draw-image'
+import SpriteDrawImage from '../utils/sprite-draw-image'
 
 class Explosion extends SpriteDrawImage  {
   constructor(x, y, id, explosions) {

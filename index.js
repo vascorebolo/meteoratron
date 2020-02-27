@@ -1,12 +1,12 @@
-import Spaceship from './spaceship'
-import Life from './life'
+import Spaceship from './objects/spaceship'
+import Life from './objects/life'
 import Points from './points'
-import Star from './star'
-import Explosion from './explosion'
+import Star from './objects/star'
+import Explosion from './objects/explosion'
 import { addMeteor, destroyMeteor, addMoreMeteors } from './utils'
 import GameOver from './gameover'
-import TextMiddle from './textmiddle'
-import Powerup from './components/powerup'
+import TextMiddle from './utils/textmiddle'
+import Powerup from './objects/powerup'
 
 // init canvas
 const canvas = document.querySelector('#canvas')
@@ -128,8 +128,9 @@ function animate() {
     }
 
     // powerups logic
-    const addPowerup = Math.round(Math.random() * 500) < 1
-    addPowerup && Powerup.addPowerup(powerups)
+    const addPowerup = Math.round(Math.random() * 500) < 1 // powerup probability 1/500
+    addPowerup && powerups.size === 0 && meteors.size > 0 && Powerup.addPowerup(powerups)
+    // ^ only add powerup if there are meteors, and there's no powerups yet
 
     for (let [key, powerup] of powerups) {
       powerup.move()
@@ -192,7 +193,7 @@ function init() {
     Star.addStar(stars)
   }
 
-  for (let i = 0; i < innerWidth / 100; i++) {
+  for (let i = 0; i < innerWidth / 300; i++) {
     addMeteor(meteors, i)
   }
 
