@@ -109,12 +109,12 @@ function animate() {
       // if meteors are more than defined metric
       // reset meteors numbers and start over faster
       if (meteors.size > Points.getMetricToAdd()) {
-        Meteor.resetMeteors(meteors, explosions, points)
+        Meteor.resetMeteors(meteors, explosions, points, stars)
       }
 
       // if level updated add more meteors
       if (points.updatedLevel) {
-        Meteor.addMeteors(meteors, Points.getMeteorsToAdd(points))
+        Meteor.addMeteors(meteors, Meteor.getMeteorsToAdd(points))
       }
 
       // draw meteors loop
@@ -187,7 +187,7 @@ function animate() {
           life: ${life.value}
           updatedLevel: ${points.updatedLevel}
           subLevel: ${points.subLevel}
-          has to add mtrs: ${Points.hasToAddMeteors(meteors)}
+          has to add mtrs: ${Meteor.hasToAddMeteors(meteors)}
         `,
         {
           fontSize: 14,

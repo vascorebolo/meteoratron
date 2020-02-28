@@ -35,14 +35,6 @@ class Points {
     const metric = Math.round(innerWidth / Meteor.getSize())
     return metric - Math.floor(metric / 3)
   }
-
-  static hasToAddMeteors(points) {
-    return this.getMeteorsToAdd(points) <= this.getMetricToAdd()
-  }
-
-  static getMeteorsToAdd(points) {
-    return points.subLevel + Math.round(points.subLevel / 2)
-  }
 }
 
 export default Points

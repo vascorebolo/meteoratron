@@ -26,6 +26,7 @@ class Star {
   update() {
     if (this.y > innerHeight || this.y + this.radius < 0) {
       this.y = -(this.radius * 2)
+      this.x = Math.random() * (innerWidth - this.radius * 2) + this.radius
     }
 
     this.x += this.dx
