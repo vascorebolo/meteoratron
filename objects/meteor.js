@@ -1,4 +1,7 @@
 import DrawImage from '../utils/draw-image'
+import Explosion from './explosion'
+import Points from '../points'
+
 class Meteor extends DrawImage {
   constructor(
     x,
@@ -30,7 +33,6 @@ class Meteor extends DrawImage {
   }
 
   move() {
-
     if (this.y > innerHeight + this.height) {
       this.x = Math.random() * innerWidth
       this.y = -this.height
@@ -41,9 +43,11 @@ class Meteor extends DrawImage {
     this.draw()
   }
 
-  static addMeteor(meteors) {
-    const dy =  Math.floor(Math.random() * 10) + 5
+  static dyCalculator(dyFactor = 5) {
+    return Math.floor(Math.random() * 10) + dyFactor
+  }
 
+  static addMeteor(meteors, dy = this.dyCalculator()) {
     const meteor = new this(
       Math.random() * innerWidth,
       0,
@@ -54,9 +58,9 @@ class Meteor extends DrawImage {
     meteors.set(meteor.key, meteor)
   }
 
-  static addMeteors(meteors, nr) {
+  static addMeteors(meteors, nr, dyFactor = 5) {
     for (let index = 0; index < nr; index++) {
-      this.addMeteor(meteors)
+      this.addMeteor(meteors, this.dyCalculator(dyFactor))
     }
   }
 
@@ -67,6 +71,33 @@ class Meteor extends DrawImage {
 
   static getSize(large = false) {
     return large ? 50 : 35
+  }
+
+  static resetMeteors(meteors, explosions, points, stars) {
+    for (let [key, meteor] of meteors) {
+      const explosion = new Explosion(meteor.x, meteor.y, explosions)
+
+      explosions.set(
+        explosion.id,
+        explosion
+      )
+    }
+
+    for (let [key, star] of stars) {
+      star.dy = star.dy + (points.level / 100)
+    }
+
+    points.subLevel = 1
+    meteors.clear()
+    Meteor.addMeteors(meteors, Math.round(innerWidth / 300), points.level)
+  }
+
+  static hasToAddMeteors(points) {
+    return this.getMeteorsToAdd(points) <= Points.getMetricToAdd()
+  }
+
+  static getMeteorsToAdd(points) {
+    return points.subLevel + Math.round(points.subLevel / 2)
   }
 }
 

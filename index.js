@@ -106,9 +106,16 @@ function animate() {
 
     // Draw meteors when elapsed time > 5000
     if (elapsedTime > 5000) {
+      // if meteors are more than defined metric
+      // reset meteors numbers and start over faster
+      if (meteors.size > Points.getMetricToAdd()) {
+        Meteor.resetMeteors(meteors, explosions, points, stars)
+      }
+
       // if level updated add more meteors
-      points.updatedLevel
-        && Meteor.addMeteors(meteors, points.level + Math.round(points.level / 2))
+      if (points.updatedLevel) {
+        Meteor.addMeteors(meteors, Meteor.getMeteorsToAdd(points))
+      }
 
       // draw meteors loop
       for (let [key, meteor] of meteors) {
@@ -175,9 +182,12 @@ function animate() {
     if (debug) {
       TextMiddle(
         `
-          metric: ${Math.round(innerWidth / Meteor.getSize())}
+          metric: ${Points.getMetricToAdd()}
           meteors: ${meteors.size}
           life: ${life.value}
+          updatedLevel: ${points.updatedLevel}
+          subLevel: ${points.subLevel}
+          has to add mtrs: ${Meteor.hasToAddMeteors(meteors)}
         `,
         {
           fontSize: 14,
@@ -202,7 +212,7 @@ function init() {
   startTime = new Date()
   stars = new Map()
   meteors = new Map()
-  points = new Points(0, startTime.getTime())
+  points = new Points(startTime.getTime())
   explosions = new Map()
   powerups = new Map()
   powerup = new Powerup(10, 10)
