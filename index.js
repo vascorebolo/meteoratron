@@ -43,7 +43,7 @@ window.addEventListener('resize', () => {
 window.addEventListener('keydown', (e) => {
   if (
     e.key === 'ArrowLeft'
-    && spaceship.x > -spaceshipDx
+    && spaceship.x > 0
   ) {
     spaceship.changeState('left')
     spaceship.x -= spaceshipDx
@@ -51,10 +51,24 @@ window.addEventListener('keydown', (e) => {
 
   if (
     e.key === 'ArrowRight'
-    && spaceship.x < innerWidth - spaceship.width + spaceshipDx
+    && spaceship.x < innerWidth - spaceship.width
   ) {
     spaceship.changeState('right')
     spaceship.x += spaceshipDx
+  }
+
+  if (
+    e.key === 'ArrowUp' &&
+    spaceship.y > 0
+  ) {
+    spaceship.y -= spaceshipDx
+  }
+
+  if (
+    e.key === 'ArrowDown' &&
+    spaceship.y < innerHeight - 80
+  ) {
+    spaceship.y += spaceshipDx
   }
 
   if (
