@@ -6,10 +6,18 @@ class Life {
   }
 
   draw() {
+    const v = this.value * 2
+    ctx.strokeStyle = 'white'
+    ctx.fillRect(innerWidth - 41, 18, 22, 203);
     ctx.fillStyle = 'green'
     ctx.fillRect(innerWidth - 40, 20, 20, 200);
     ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'
-    ctx.fillRect(innerWidth - 40, 20, 20, 200 - this.value * 2);
+    ctx.fillRect(
+      innerWidth - 40,
+      20,
+      20,
+      200 - (v > 200 ? 200 : v)
+    )
   }
 
   hit(big = false) {

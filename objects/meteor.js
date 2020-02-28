@@ -84,7 +84,7 @@ class Meteor extends DrawImage {
     }
 
     for (let [key, star] of stars) {
-      star.dy = star.dy + (points.level / 100)
+      star.dy = star.dy + (points.level / 30)
     }
 
     points.subLevel = 1
