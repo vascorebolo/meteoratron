@@ -11,7 +11,7 @@ function GameOver(points) {
     })
 
     TextMiddle(
-        `Points: ${points.points} | Level: ${points.level + 1}`, {
+        `Points: ${points.points} | Level: ${points.level}`, {
             y: (innerHeight / 2) - 20,
             fontSize: 20,
             color: 'red'

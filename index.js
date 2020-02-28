@@ -106,30 +106,15 @@ function animate() {
 
     // Draw meteors when elapsed time > 5000
     if (elapsedTime > 5000) {
+      // if meteors are more than defined metric
+      // reset meteors numbers and start over faster
+      if (meteors.size > Points.getMetricToAdd()) {
+        Meteor.resetMeteors(meteors, explosions, points)
+      }
+
       // if level updated add more meteors
       if (points.updatedLevel) {
-        if (meteors.size < Math.round(innerWidth / Meteor.getSize()) - 15) {
-          Meteor.addMeteors(meteors, points.level + Math.round(points.level / 2))
-        } else {
-          let dyValue = 0
-          let meteorsToDestroy = []
-          for (let [key, meteor] of meteors) {
-            dyValue = dyValue === 0 ? meteor.dy : dyValue
-            const explosion = new Explosion(meteor.x, meteor.y, explosions)
-            explosions.set(
-              explosion.id,
-              explosion
-            )
-            meteorsToDestroy.push(meteor.key)
-          }
-
-          for (let i = 0; i < meteorsToDestroy.length; i++) {
-            const key = meteorsToDestroy[i];
-            Meteor.destroyMeteor(meteors, key)
-          }
-
-          Meteor.addMeteors(meteors, 10, dyValue)
-        }
+        Meteor.addMeteors(meteors, Points.getMeteorsToAdd(points))
       }
 
       // draw meteors loop
@@ -197,10 +182,12 @@ function animate() {
     if (debug) {
       TextMiddle(
         `
-          metric: ${(Math.round(innerWidth / Meteor.getSize()) - 15 )}
+          metric: ${Points.getMetricToAdd()}
           meteors: ${meteors.size}
           life: ${life.value}
-          level condition: ${meteors.size - 15 < Math.round(innerWidth / Meteor.getSize())}
+          updatedLevel: ${points.updatedLevel}
+          subLevel: ${points.subLevel}
+          has to add mtrs: ${Points.hasToAddMeteors(meteors)}
         `,
         {
           fontSize: 14,
@@ -225,7 +212,7 @@ function init() {
   startTime = new Date()
   stars = new Map()
   meteors = new Map()
-  points = new Points(0, startTime.getTime())
+  points = new Points(startTime.getTime())
   explosions = new Map()
   powerups = new Map()
   powerup = new Powerup(10, 10)

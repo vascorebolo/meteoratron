@@ -1,4 +1,6 @@
 import DrawImage from '../utils/draw-image'
+import Explosion from './explosion'
+
 class Meteor extends DrawImage {
   constructor(
     x,
@@ -41,9 +43,7 @@ class Meteor extends DrawImage {
     this.draw()
   }
 
-  static addMeteor(meteors) {
-    const dy =  Math.floor(Math.random() * 10) + 5
-
+  static addMeteor(meteors, dy = Math.floor(Math.random() * 10) + 5) {
     const meteor = new this(
       Math.random() * innerWidth,
       0,
@@ -54,9 +54,9 @@ class Meteor extends DrawImage {
     meteors.set(meteor.key, meteor)
   }
 
-  static addMeteors(meteors, nr) {
+  static addMeteors(meteors, nr, dyFactor = 5) {
     for (let index = 0; index < nr; index++) {
-      this.addMeteor(meteors)
+      this.addMeteor(meteors, Math.floor(Math.random() * 10) + dyFactor)
     }
   }
 
@@ -67,6 +67,21 @@ class Meteor extends DrawImage {
 
   static getSize(large = false) {
     return large ? 50 : 35
+  }
+
+  static resetMeteors(meteors, explosions, points) {
+    for (let [key, meteor] of meteors) {
+      const explosion = new Explosion(meteor.x, meteor.y, explosions)
+
+      explosions.set(
+        explosion.id,
+        explosion
+      )
+    }
+
+    points.subLevel = 1
+    meteors.clear()
+    Meteor.addMeteors(meteors, Math.round(innerWidth / 300), points.level)
   }
 }
 
