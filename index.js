@@ -8,6 +8,7 @@ import GameOver from './gameover'
 import TextMiddle from './utils/textmiddle'
 import Powerup from './objects/powerup'
 import PowerupFeedback from './objects/powerup-feedback'
+import LevelInfo from './objects/level-info'
 
 // init canvas
 const canvas = document.querySelector('#canvas')
@@ -25,9 +26,9 @@ let startTime = null
 let points = null
 let paused = false
 let debug = false
-let powerup = null
 let powerups = null
 let powerHits = null
+let levelInfos = null
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -128,7 +129,9 @@ function animate() {
 
       // if level updated add more meteors
       if (points.updatedLevel) {
+        const levelInfo = new LevelInfo(points)
         Meteor.addMeteors(meteors, Meteor.getMeteorsToAdd(points))
+        levelInfos.set(levelInfo.key, levelInfo)
       }
 
       // draw meteors loop
@@ -192,6 +195,15 @@ function animate() {
       powerHit.draw()
     }
 
+    // render level info text
+    for (let [key, levelInfo] of levelInfos) {
+      if (levelInfo.counter < levelInfo.frames) {
+        levelInfo.draw()
+      } else {
+        levelInfos.delete(levelInfo.key)
+      }
+    }
+
     // show debug bar
     if (debug) {
       TextMiddle(
@@ -229,9 +241,12 @@ function init() {
   points = new Points(startTime.getTime())
   explosions = new Map()
   powerups = new Map()
-  powerup = new Powerup(10, 10)
   powerups = new Map()
   powerHits = new Map()
+  levelInfos = new Map()
+
+  const levelInfo = new LevelInfo(points)
+  levelInfos.set(levelInfo.key, levelInfo)
 
   for (let i = 0; i < 500; i++) {
     Star.addStar(stars)

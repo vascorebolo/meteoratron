@@ -27,6 +27,7 @@ class Spaceship extends SpriteDrawImage {
       this.width + this.skew,
       this.height
     )
+
     this.frameStepper++
   }
 
