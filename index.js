@@ -108,6 +108,10 @@ window.addEventListener('keyup', (e) => {
   if (e.key === 'Enter' && showMenu) {
     showMenu = false
   }
+
+  if (e.key === 'Escape' && !showMenu) {
+    showMenu = true
+  }
 })
 
 // main render function
