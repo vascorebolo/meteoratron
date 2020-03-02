@@ -29,6 +29,7 @@ let debug = false
 let powerups = null
 let powerHits = null
 let levelInfos = null
+let showMenu = true
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -103,6 +104,10 @@ window.addEventListener('keyup', (e) => {
   if (e.key === 'q') {
     Powerup.addPowerup(powerups)
   }
+
+  if (e.key === 'Enter' && showMenu) {
+    showMenu = false
+  }
 })
 
 // main render function
@@ -110,7 +115,7 @@ function animate() {
   const now = new Date()
   const elapsedTime = now - startTime
   // Draw scene when still alive
-  if (life.value > 0 && !paused) {
+  if (life.value > 0 && !paused && !showMenu) {
     requestAnimationFrame(animate)
     ctx.clearRect(0, 0, innerWidth, innerHeight) // clean scene
 
@@ -222,7 +227,31 @@ function animate() {
         }
       )
     }
+  } else if (showMenu) {
+    requestAnimationFrame(animate)
+    ctx.clearRect(0, 0, innerWidth, innerHeight) // clean scene
 
+    // draw the stars
+    for (let [key, star] of stars) {
+      star.update()
+    }
+
+    TextMiddle(
+      'AVOID METEORS',
+      {
+        fontSize: 80,
+        color: 'red',
+        y: innerHeight / 2 - 40
+      }
+    )
+
+    TextMiddle(
+      '(press Enter to play...)', {
+        fontSize: 20,
+        color: 'tomato',
+        y: innerHeight / 2 + 10
+      }
+    )
   } else if (!paused) {
     // Draw scene when dead - GAME OVER
     GameOver(points)
