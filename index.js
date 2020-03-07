@@ -109,6 +109,7 @@ window.addEventListener('keyup', (e) => {
   if (e.key === 'Enter' && showMenu) {
     showMenu = false
     startTime = new Date()
+    points = new Points(startTime.getTime())
   }
 
   if (e.key === 'Escape' && !showMenu) {
@@ -224,7 +225,7 @@ function animate() {
           life: ${life.value}
           updatedLevel: ${points.updatedLevel}
           subLevel: ${points.subLevel}
-          has to add mtrs: ${Meteor.hasToAddMeteors(meteors)}
+          elapsedTime: ${elapsedTime}
         `,
         {
           fontSize: 14,
