@@ -9,6 +9,7 @@ import TextMiddle from './utils/textmiddle'
 import Powerup from './objects/powerup'
 import PowerupFeedback from './objects/powerup-feedback'
 import LevelInfo from './objects/level-info'
+import MainMenu from './main-menu'
 
 // init canvas
 const canvas = document.querySelector('#canvas')
@@ -107,6 +108,7 @@ window.addEventListener('keyup', (e) => {
 
   if (e.key === 'Enter' && showMenu) {
     showMenu = false
+    startTime = new Date()
   }
 
   if (e.key === 'Escape' && !showMenu) {
@@ -232,30 +234,7 @@ function animate() {
       )
     }
   } else if (showMenu) {
-    requestAnimationFrame(animate)
-    ctx.clearRect(0, 0, innerWidth, innerHeight) // clean scene
-
-    // draw the stars
-    for (let [key, star] of stars) {
-      star.update()
-    }
-
-    TextMiddle(
-      'AVOID METEORS',
-      {
-        fontSize: 80,
-        color: 'red',
-        y: innerHeight / 2 - 40
-      }
-    )
-
-    TextMiddle(
-      '(press Enter to play...)', {
-        fontSize: 20,
-        color: 'tomato',
-        y: innerHeight / 2 + 10
-      }
-    )
+    MainMenu(stars, animate)
   } else if (!paused) {
     // Draw scene when dead - GAME OVER
     GameOver(points)
