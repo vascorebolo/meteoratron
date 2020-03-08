@@ -168,11 +168,11 @@ function animate() {
 
     // powerups logic
     const addPowerup = Math.round(Math.random() * 500) < 1 // powerup probability 1/500
-    addPowerup &&
-      powerups.size === 0 &&
-      meteors.size > 0 &&
-      elapsedTime > 6000 &&
-      Powerup.addPowerup(powerups)
+    addPowerup
+      && powerups.size === 0
+      && meteors.size > 0
+      && elapsedTime > 6000
+      && Powerup.addPowerup(powerups)
     // ^ only add powerup if there are meteors, and there's no powerups yet
 
     for (let [key, powerup] of powerups) {
