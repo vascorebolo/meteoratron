@@ -261,7 +261,7 @@ function init() {
   const levelInfo = new LevelInfo(points)
   levelInfos.set(levelInfo.key, levelInfo)
 
-  for (let i = 0; i < 500; i++) {
+  for (let i = 0; i < Math.round(innerWidth / 2.5); i++) {
     Star.addStar(stars)
   }
 
