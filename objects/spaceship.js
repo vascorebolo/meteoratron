@@ -2,10 +2,9 @@ import SpriteDrawImage from '../utils/sprite-draw-image'
 
 class Spaceship extends SpriteDrawImage {
   constructor(x, y) {
-    super('spaceship.png', x, y, 64, 64, 192)
+    super('spaceship2.png', x, y, 64, 64, 192)
 
     this.state = null
-    this.skew = 0
     this.xt = -8
     this.xAdjust = 0
   }
@@ -19,12 +18,12 @@ class Spaceship extends SpriteDrawImage {
     ctx.drawImage(
       this.img,
       this.srcX,
-      0,
+      this.srcY,
       this.width,
       this.height,
       this.x - this.xAdjust,
       this.y,
-      this.width + this.skew,
+      this.width,
       this.height
     )
 
@@ -34,13 +33,19 @@ class Spaceship extends SpriteDrawImage {
   changeState(state) {
     switch (state) {
       case 'left':
-        this.skew = this.xt
         this.xAdjust = this.xt
+        this.srcY = 128
+        this.srcX = 0
+        this.cols = 1
         break
       case 'right':
-        this.skew = this.xt
+        this.srcY = 64
+        this.srcX = 0
+        this.cols = 1
         break
       default:
+        this.srcY = 0
+        this.cols = this.sheetWidth / this.width
         this.skew = 0
         this.xAdjust = 0
     }

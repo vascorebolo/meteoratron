@@ -13,6 +13,7 @@ class SpriteDrawImage extends DrawImage {
     super(src, x, y, width, height)
 
     this.srcX = 0
+    this.srcY = 0
     this.sheetWidth = sheetWidth
     this.cols = sheetWidth / width
     this.frameInterval = frameInterval
@@ -34,7 +35,7 @@ class SpriteDrawImage extends DrawImage {
     ctx.drawImage(
       this.img,
       this.srcX,
-      0,
+      this.srcY,
       this.width,
       this.height,
       this.x,
