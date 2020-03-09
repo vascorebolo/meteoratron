@@ -2,7 +2,8 @@
 
 A little game made with html5 canvas and js.\
 Avoid the meteors coming your way. For how many levels
-can you survive?
+can you survive?\
+Live demo can be found [here](http://meteoratron.vascosilva.site/).
 
 ## Instructions
 
