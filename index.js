@@ -10,6 +10,7 @@ import Powerup from './objects/powerup'
 import PowerupFeedback from './objects/powerup-feedback'
 import LevelInfo from './objects/level-info'
 import MainMenu from './main-menu'
+import PreloadImages from './utils/preload-images'
 import styles from './styles.scss'
 
 // init canvas
@@ -261,6 +262,9 @@ function init() {
   powerups = new Map()
   powerHits = new Map()
   levelInfos = new Map()
+
+  // preload images used in game
+  PreloadImages(['explosion.png', 'meteor.png', 'powerup_feedback.png'])
 
   const levelInfo = new LevelInfo(points)
   levelInfos.set(levelInfo.key, levelInfo)
