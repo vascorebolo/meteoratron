@@ -1,0 +1,45 @@
+html,
+body {
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+canvas {
+  background: black;
+  border: 1px solid black;
+}
+
+.main-menu {
+  background-size: contain;
+  height: 12vw;
+  left: 50%;
+  max-height: 85px;
+  max-width: 600px;
+  position: fixed;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 80vw;
+
+  &.hidden {
+    display: none;
+  }
+
+  p {
+      animation: blinker 800ms cubic-bezier(.5, 0, 1, 1) infinite alternate;
+      bottom: -25px;
+      color: #fff;
+      font-family: arial;
+      margin: 0;
+      position: absolute;
+      text-align: center;
+      text-transform: uppercase;
+      width: 100%;
+  }
+
+  @keyframes blinker {
+    to {
+      opacity: 0;
+    }
+  }
+}

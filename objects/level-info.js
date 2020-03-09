@@ -16,7 +16,7 @@ class LevelInfo {
         `LEVEL: ${this.points.level}`,
         {
           y: innerHeight / 2 - 50,
-          color: 'tomato'
+          color: 'rgb(147, 21, 151)'
         }
       )
     }

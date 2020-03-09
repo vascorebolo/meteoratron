@@ -10,7 +10,7 @@ import Powerup from './objects/powerup'
 import PowerupFeedback from './objects/powerup-feedback'
 import LevelInfo from './objects/level-info'
 import MainMenu from './main-menu'
-import test from './test.scss'
+import styles from './styles.scss'
 
 // init canvas
 const canvas = document.querySelector('#canvas')
@@ -112,12 +112,12 @@ window.addEventListener('keyup', (e) => {
     showMenu = false
     startTime = new Date()
     points = new Points(startTime.getTime())
-    mainMenu.classList.add('none')
+    mainMenu.classList.add('hidden')
   }
 
   if (e.key === 'Escape' && !showMenu) {
     showMenu = true
-    mainMenu.classList.remove('none')
+    mainMenu.classList.remove('hidden')
   }
 })
 
