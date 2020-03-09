@@ -1,7 +1,8 @@
-# Meteoratron
+![logo](public/logo.png)
 
-![logo]('public/logo.png')\
-A little game made with html5 canvas and js.
+A little game made with html5 canvas and js.\
+Avoid the meteors coming your way. For how many levels
+can you survive?
 
 ## Instructions
 
