@@ -12,6 +12,7 @@ import LevelInfo from './objects/level-info'
 import MainMenu from './main-menu'
 import PreloadImages from './utils/preload-images'
 import styles from './styles.scss'
+import SpriteDrawImage from './utils/sprite-draw-image'
 
 // init canvas
 const canvas = document.querySelector('#canvas')
@@ -201,6 +202,7 @@ function animate() {
     spaceship.draw()
     points.draw()
     life.draw()
+
 
     // render explosions
     for (let [key, explosion] of explosions) {

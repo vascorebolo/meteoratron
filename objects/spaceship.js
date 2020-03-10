@@ -7,6 +7,8 @@ class Spaceship extends SpriteDrawImage {
     this.state = null
     this.xt = -8
     this.xAdjust = 0
+    this.shielded = false
+    this.shieldShip = new SpriteDrawImage('shieldship.png', this.x - 3, this.y, 72, 64, 576)
   }
 
   draw() {
@@ -26,6 +28,12 @@ class Spaceship extends SpriteDrawImage {
       this.width,
       this.height
     )
+
+    if (this.shielded) {
+      this.shieldShip.x = this.x - 3
+      this.shieldShip.y = this.y
+      this.shieldShip.draw()
+    }
 
     this.frameStepper++
   }
