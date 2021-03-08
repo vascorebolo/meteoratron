@@ -1,5 +1,7 @@
 ![logo](public/logo.png)
 
+![gameplay](gameplay.gif)
+
 A little game made with html5 canvas and js.\
 Avoid the meteors coming your way. For how many levels
 can you survive?\
